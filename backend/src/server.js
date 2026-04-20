@@ -15,6 +15,10 @@ let shuttingDown = false;
 let polling;
 let reminders;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const webDist = path.resolve(__dirname, "../../frontend/dist");
+
 const eventsRepository = new EventsRepository(config.dataFile);
 const eventsService = new EventsService(eventsRepository);
 
@@ -52,6 +56,11 @@ app.get("/metrics", (_, res) => {
 
 app.use(express.json());
 app.use("/api/events", createEventsRouter(eventsService));
+
+app.use(express.static(webDist));
+app.get(/^(?!\/api|\/health|\/ready|\/metrics).*/, (req, res) => {
+  res.sendFile(path.join(webDist, "index.html"));
+});
 
 const server = app.listen(config.port, async () => {
   ready = true;

@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://192.168.2.226:3000",
+        target: "http://localhost:3000",
         changeOrigin: true, // Прокси для API запросов к бэкенду
       },
     },

@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "build:web": "npm --prefix ../frontend run build",
+    "start:prod": "npm run build:web && npm start"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
