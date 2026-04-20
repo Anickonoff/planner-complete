@@ -1,0 +1,11 @@
+node_modules/
+.vscode/
+.env
+logs/
+*.log
+
+# игнорим только данные
+backend/data/*.json
+backend/data/backups/*.json
+dist/
+build/
