@@ -1,5 +1,7 @@
 import "dotenv/config";
 import express from "express";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { config } from "./config/index.js";
 import { renderMetrics, metrics } from "./utils/metrics.js";
 import { TelegramPolling } from "./api/telegram/telegram.polling.js";
@@ -91,7 +93,8 @@ const server = app.listen(config.port, async () => {
       await polling.start();
     } catch (error) {
       logger.error("Error starting Telegram polling:", {
-        error});
+        error,
+      });
       shutdown();
     }
   }
