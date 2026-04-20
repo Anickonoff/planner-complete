@@ -1,16 +1,45 @@
-# React + Vite
+# Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Это пользовательский интерфейс приложения Planner.
 
-Currently, two official plugins are available:
+## Назначение
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Frontend отвечает за отображение календаря, задач и форм управления данными. Он получает данные от backend по API и показывает их в удобном интерфейсе на React.
 
-## React Compiler
+## Технологии
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- Vite
+- styled-components
+- axios
+- date-fns
 
-## Expanding the ESLint configuration
+## Структура
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/` - исходный код интерфейса
+- `public/` - статические файлы
+- `dist/` - результат production-сборки
+
+## Запуск
+
+### Установка зависимостей
+
+```bash
+npm install
+```
+
+### Режим разработки
+
+```bash
+npm run dev
+```
+
+Vite запускается в режиме разработки и проксирует запросы `/api` на backend. Для указания адреса backend, запущенного на другом устройстве отредактируйте в файле `vite.config.js` параметр `target`.
+
+### Production-сборка
+
+```bash
+npm run build
+```
+
+Собранные файлы появятся в `dist/`.
