@@ -20,7 +20,7 @@ function write(level, message, meta) {
     ts,
     level,
     message,
-    ...(meta ? { meta } : {}),
+    ...(meta ? { meta: serializeMeta(meta) } : {}),
   };
 
   fs.appendFileSync(logFile, JSON.stringify(record) + "\n");
@@ -29,6 +29,34 @@ function write(level, message, meta) {
   if (level === "error") {
     console.error(record);
   }
+}
+
+function serializeMeta(value) {
+  if (value instanceof Error) {
+    return {
+      name: value.name,
+      message: value.message,
+      stack: value.stack,
+      code: value.code,
+      cause: value.cause ? serializeMeta(value.cause) : undefined,
+    };
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => serializeMeta(item));
+  }
+
+  if (value && typeof value === "object") {
+    const output = {};
+
+    for (const [key, item] of Object.entries(value)) {
+      output[key] = serializeMeta(item);
+    }
+
+    return output;
+  }
+
+  return value;
 }
 
 export const logger = {

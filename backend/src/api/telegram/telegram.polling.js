@@ -1,13 +1,13 @@
 import { telegramRequest } from "./telegram.client.js";
 import { parseTelegramMessage } from "./parser.js";
 import { metrics } from "../../utils/metrics.js";
-import fs from "fs/promises";
 import { EventsService } from "../../services/events.service.js";
 import { EventsRepository } from "../../repositories/events.repository.js";
 import { formatEventDateForUser } from "../../utils/date.js";
 import { config } from "../../config/index.js";
 import { logger } from "../../utils/logger.js";
 import { handleTelegramCommand } from "./telegram.commands.js";
+import { ensureDataStore, updateDataStore } from "../../utils/data-store.js";
 
 export class TelegramPolling {
   constructor({ token, dataFile, interval, allowedChatId = null }) {
@@ -22,17 +22,15 @@ export class TelegramPolling {
   }
 
   async loadOffset() {
-    const raw = await fs.readFile(this.dataFile, "utf-8");
-    const json = JSON.parse(raw);
+    const json = await ensureDataStore(this.dataFile);
     this.offset = json.meta?.telegramOffset || 0;
     metrics.setTelegramOffset(this.offset);
   }
 
   async saveOffset() {
-    const raw = await fs.readFile(this.dataFile, "utf-8");
-    const json = JSON.parse(raw);
-    json.meta.telegramOffset = this.offset;
-    await fs.writeFile(this.dataFile, JSON.stringify(json, null, 2));
+    await updateDataStore(this.dataFile, (json) => {
+      json.meta.telegramOffset = this.offset;
+    });
     metrics.setTelegramOffset(this.offset);
   }
 
@@ -83,9 +81,15 @@ export class TelegramPolling {
             chatId,
           });
         } catch (err) {
+          logger.error("Error creating Telegram event", {
+            error: err,
+            chatId,
+          });
           await telegramRequest(this.token, "sendMessage", {
             chat_id: chatId,
-            text: `⚠️ Ошибка\n\n` + `${err.message}`,
+            text:
+              "⚠️ Ошибка\n\n" +
+              "Не удалось сохранить событие. Мы уже записали техническую ошибку и попробуем дальше работать нормально.",
           });
           continue;
         }
@@ -101,7 +105,7 @@ export class TelegramPolling {
     } catch (err) {
       metrics.incTelegramErrors();
       logger.error("Telegram polling error", {
-        error: err.message,
+        error: err,
       });
     }
   }

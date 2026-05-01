@@ -1,6 +1,6 @@
-import fs from "fs/promises";
 import { withFileLock } from "../utils/fileLock.js";
 import { createBackup, cleanupBackups } from "../utils/backup.js";
+import { ensureDataStore, writeDataStore } from "../utils/data-store.js";
 
 export class EventsRepository {
   constructor(filePath) {
@@ -8,19 +8,18 @@ export class EventsRepository {
   }
 
   async load() {
-    const raw = await fs.readFile(this.filePath, "utf-8");
-    return JSON.parse(raw);
+    return ensureDataStore(this.filePath);
   }
 
   async save(mutator) {
     return withFileLock(async () => {
+      const data = await this.load();
       await createBackup(this.filePath);
 
-      const data = await this.load();
       const result = await mutator(data);
 
       data.meta.updatedAt = new Date().toISOString();
-      await fs.writeFile(this.filePath, JSON.stringify(data, null, 2));
+      await writeDataStore(this.filePath, data);
 
       await cleanupBackups();
       return result;
