@@ -351,10 +351,10 @@ const Calendar = ({ onSelectDate, selectedWeekStart, readOnly = false }) => {
           </CalendarMonth>
           <CalendarActions>
             <CalendarAction onClick={() => chngMonth("prev")}>
-              <i class="fa fa-angle-left"></i>
+              <i className="fa fa-angle-left"></i>
             </CalendarAction>
             <CalendarAction onClick={() => chngMonth("next")}>
-              <i class="fa fa-angle-right"></i>
+              <i className="fa fa-angle-right"></i>
             </CalendarAction>
           </CalendarActions>
         </CalendarNav>
@@ -372,13 +372,13 @@ const Calendar = ({ onSelectDate, selectedWeekStart, readOnly = false }) => {
                       type="button"
                       onClick={() => setPickerYear((prev) => prev - 9)}
                     >
-                      <i class="fa fa-angle-left"></i>
+                      <i className="fa fa-angle-left"></i>
                     </MonthPickerControl>
                     <MonthPickerControl
                       type="button"
                       onClick={() => setPickerYear((prev) => prev + 9)}
                     >
-                      <i class="fa fa-angle-right"></i>
+                      <i className="fa fa-angle-right"></i>
                     </MonthPickerControl>
                   </>
                 ) : (

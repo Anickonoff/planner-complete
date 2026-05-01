@@ -11,10 +11,12 @@ export default function useTasks() {
     const fetchTasks = async () => {
       try {
         const data = await getTasks();
-        console.log("Fetched tasks:", data.events);
-        setTasks(data.events);
+        const events = Array.isArray(data?.events) ? data.events : [];
+        console.log("Fetched tasks:", events);
+        setTasks(events);
       } catch (error) {
         setError(error);
+        setTasks([]);
       } finally {
         setLoading(false);
       }

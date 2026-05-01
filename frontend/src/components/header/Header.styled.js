@@ -4,11 +4,15 @@ const StyledHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding: 16px calc(50% - 600px);
   background-color: white;
   border-bottom: 1px solid #e9ecef;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   gap: 16px;
+
+  @media screen and (max-width: 1248px) {
+    padding: 12px 24px;
+  }
   @media screen and (max-width: 480px) {
     padding: 12px 16px;
   }
@@ -68,7 +72,6 @@ const NavButton = styled.button`
     width: auto;
     height: 32px;
   }
-
 
   &:hover {
     background-color: #e9ecef;
