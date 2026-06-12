@@ -1,4 +1,3 @@
-import "dotenv/config";
 import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -87,7 +86,7 @@ const server = app.listen(config.port, async () => {
         token: config.telegram.token,
         interval: config.telegram.pollingInterval,
         dataFile: config.dataFile,
-        eventsService, // 👈 если polling использует сервис
+        eventsService, // если polling использует сервис
       });
 
       await polling.start();

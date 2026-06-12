@@ -93,17 +93,13 @@ export class EventsService {
       addWeeks(nowZoned, 1),
       { weekStartsOn: 1 }, // понедельник
     );
-    const endOfNextWeek = addWeeks(startOfNextWeek, 1);
 
     return events
       .map((event) => ({
         event,
         zonedDate: toZonedTime(new Date(event.eventDate), config.timeZone),
       }))
-      .filter(
-        ({ zonedDate }) =>
-          zonedDate >= startOfNextWeek && zonedDate < endOfNextWeek,
-      )
+      .filter(({ zonedDate }) => isSameWeek(zonedDate, startOfNextWeek))
       .sort((a, b) => a.zonedDate - b.zonedDate)
       .map(({ event }) => event);
   }
@@ -192,7 +188,10 @@ export class EventsService {
           continue;
         }
 
-        const eventZoned = toZonedTime(new Date(event.eventDate), config.timeZone);
+        const eventZoned = toZonedTime(
+          new Date(event.eventDate),
+          config.timeZone,
+        );
 
         const isDue = event.hasTime
           ? eventZoned <= nowZoned

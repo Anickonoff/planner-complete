@@ -149,7 +149,16 @@ http://localhost:5173
 
 ## Настройка Telegram
 
-Скопируйте файл `backend/.env.example` в `backend/.env` и отредактируйте содержимое:
+Используйте один `.env` в корне проекта. Backend загружает его автоматически при `npm start` и в Docker Compose.
+Относительные пути в этом файле считаются от `backend/`, поэтому можно оставить значения вида:
+
+```env
+DATA_FILE_PATH=./data/events.json
+LOG_DIR=./logs
+BACKUP_DIR=./data/backups
+```
+
+Скопируйте файл `.env.example` в `.env` и отредактируйте содержимое:
 
 ### Основные переменные
 
@@ -160,7 +169,7 @@ TELEGRAM_ALLOWED_CHAT_ID=
 TG_PROXY_URL=
 ```
 
-### Пример `backend/.env`
+### Пример `.env`
 
 ```env
 PORT=3000
@@ -168,7 +177,7 @@ DATA_FILE_PATH=./data/events.json
 TG_BOT_TOKEN=
 TG_POLLING_INTERVAL=2000
 TELEGRAM_ALLOWED_CHAT_ID=
-TG_PROXY_URL=
+TG_PROXY_URL=socks5://username:password@address:port
 LOG_DIR=./logs
 LOG_LEVEL=info
 BACKUP_DIR=./data/backups

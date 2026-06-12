@@ -1,9 +1,10 @@
 import fs from "fs";
 import path from "path";
+import { config } from "../config/index.js";
 
 const LOG_LEVELS = ["info", "warn", "error"];
 
-const logDir = process.env.LOG_DIR || "./logs";
+const logDir = config.logDir;
 const logFile = path.join(logDir, "planner.log");
 
 if (!fs.existsSync(logDir)) {

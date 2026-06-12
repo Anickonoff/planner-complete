@@ -1,6 +1,13 @@
+import { resolveBackendPath } from "../utils/paths.js";
+
 export const config = {
   port: Number(process.env.PORT) || 3000,
-  dataFile: process.env.DATA_FILE_PATH || "./data/events.json",
+  dataFile: resolveBackendPath(
+    process.env.DATA_FILE_PATH,
+    "./data/events.json"
+  ),
+  backupDir: resolveBackendPath(process.env.BACKUP_DIR, "./data/backups"),
+  logDir: resolveBackendPath(process.env.LOG_DIR, "./logs"),
   timeZone: process.env.APP_TIMEZONE || "UTC",
   locale: process.env.APP_LOCALE || "ru-RU",
   telegram: {
