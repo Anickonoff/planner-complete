@@ -114,7 +114,6 @@ export async function handleTelegramCommand({
 
     await telegramRequest(token, "sendMessage", {
       chat_id: chatId,
-      parse_mode: "Markdown",
       text:
         `⚠️ Подтверждение удаления\n\n` +
         `Событие:\n` +
@@ -221,7 +220,6 @@ export async function handleTelegramCommand({
     });
     await telegramRequest(token, "sendMessage", {
       chat_id: chatId,
-      parse_mode: "Markdown",
       text: `📅 События на этой неделе (прошедшие и будущие)\n\n${lines.join("\n")}`,
     });
     return true;
@@ -245,7 +243,6 @@ export async function handleTelegramCommand({
 
     await telegramRequest(token, "sendMessage", {
       chat_id: chatId,
-      parse_mode: "Markdown",
       text: `📅 События на следующую неделю\n\n` + lines.join("\n"),
     });
 
@@ -270,7 +267,6 @@ export async function handleTelegramCommand({
 
     await telegramRequest(token, "sendMessage", {
       chat_id: chatId,
-      parse_mode: "Markdown",
       text:
         `📅 События в этом месяце (прошедшие и будущие)\n\n` + lines.join("\n"),
     });
@@ -296,7 +292,6 @@ export async function handleTelegramCommand({
 
     await telegramRequest(token, "sendMessage", {
       chat_id: chatId,
-      parse_mode: "Markdown",
       text: `📅 События на сегодня\n\n${lines.join("\n")}`,
     });
 
@@ -321,7 +316,6 @@ export async function handleTelegramCommand({
 
     await telegramRequest(token, "sendMessage", {
       chat_id: chatId,
-      parse_mode: "Markdown",
       text: `📅 События на завтра\n\n${lines.join("\n")}`,
     });
 
