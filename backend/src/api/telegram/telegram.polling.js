@@ -81,6 +81,13 @@ export class TelegramPolling {
             chatId,
           });
         } catch (err) {
+          if (err.message === "Нельзя создать событие в прошлом") {
+            await telegramRequest(this.token, "sendMessage", {
+              chat_id: chatId,
+              text: "⚠️ Ошибка\n\nНельзя создать событие в прошлом",
+            });
+            continue;
+          }
           logger.error("Error creating Telegram event", {
             error: err,
             chatId,
